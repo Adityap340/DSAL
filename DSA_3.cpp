@@ -69,61 +69,68 @@ void swapChildren(Node* root) {
     swap(root->left, root->right);
 }
 
-bool SearchValue(Node* root, int value) {
+bool searchValue(Node* root, int value) {
     if (root == NULL) {
         return false;
-    }
+    } 
     if (root->data == value) {
         return true;
-    } else if (value < root->data) {
-        return SearchValue(root->left, value);
-    } else {
-        return SearchValue(root->right, value);
+        if (value < root->data) {
+            return searchValue(root->left, value);
+        } 
+        else {
+        return searchValue(root->right, value);
+        }
     }
 }
 
 int main() {
     Node* root = NULL;
 
-    // Construct binary search tree by inserting values
-    int values[] = {10, 5, 15, 3, 7, 12, 20};
-    int size = sizeof(values) / sizeof(values[0]);
-    for (int i = 0; i < size; i++) {
-        root = insertNode(root, values[i]);
+    cout << "Binary Search Tree Construction\n";
+    cout << "Enter values to insert into the tree (enter -1 to stop):\n";
+
+    int value;
+    while (true) {
+        cin >> value;
+        if (value == -1) {
+            break;
+        }
+        root = insertNode(root, value);
     }
 
     cout << "Inorder traversal of the binary search tree: ";
     inorderTraversal(root);
     cout << endl;
 
-    // Insert new node
-    int newValue = 8;
+    int newValue;
+    cout << "Enter a value to insert into the tree: ";
+    cin >> newValue;
     root = insertNode(root, newValue);
+
     cout << "Inorder traversal after inserting " << newValue << ": ";
     inorderTraversal(root);
     cout << endl;
 
-    // Number of nodes in the longest path from root
     int height = getHeight(root);
     cout << "Number of nodes in the longest path from root: " << height << endl;
 
-    // Minimum data value in the tree
     int minValue = getMinValue(root);
     cout << "Minimum value in the tree: " << minValue << endl;
 
-    // Change tree so that left and right pointers are swapped
     swapChildren(root);
     cout << "Inorder traversal after swapping left and right pointers: ";
     inorderTraversal(root);
     cout << endl;
 
-    // Search a value
-    int searchValue = 7;
-    bool found = SearchValue(root, searchValue);
+    int valueToSearch;
+    cout << "Enter a value to search in the tree: ";
+    cin >> valueToSearch;
+    bool found = searchValue(root, valueToSearch);
     if (found) {
-        cout << searchValue << " is found in the tree.\n";
+        cout << valueToSearch << " is found in the tree.\n";
     } else {
-        cout << searchValue << " is not found in the tree.\n";
+        cout << valueToSearch << " is not found in the tree.\n";
     }
 
     return 0;
